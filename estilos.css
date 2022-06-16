@@ -13,7 +13,7 @@ body {
     font-family: 'Roboto', sans-serif
 }
 
-.header{
+.header {
     width: 100%;
     font-size: 56px;
     font-weight: 700;
@@ -27,11 +27,11 @@ body {
 
 }
 
-.game{
+.game {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    
+
 }
 
 .card {
@@ -46,18 +46,29 @@ body {
     justify-content: center;
     align-items: center;
 
+    transition: transform 500ms;
 }
 
-.card img, .gif {
+.card img {
     width: 100px;
     height: 100px;
 }
 
 
-.hidden-gif, .hidden-img{
+.hidden {
     display: none;
 }
 
 li {
     list-style-type: none;
+
+}
+
+li.turn{
+    transform: rotateY(180deg);
+    opacity: 1;
+}
+
+.gif.turn{
+    opacity: 0;
 }
