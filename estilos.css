@@ -28,15 +28,25 @@ body {
 }
 
 .game {
-    display: flex;
+    /* display: flex;
     justify-content: center;
+    flex-wrap: wrap; */
+
+    display:flex;
     flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    opacity: 1;
+    transition: all 3s;
 
 }
 
-.card {
+
+
+/* .card {
+    position: relative;
     background-color: #A7E9AF;
-    width: 117px;
+    width: 117;
     height: 146px;
     border: 1px solid #99CEA8;
     border-radius: 5px;
@@ -47,11 +57,61 @@ body {
     align-items: center;
 
     transition: transform 500ms;
+} */
+
+.card {
+    position: relative;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #99CEA8;
+    margin: 20px;
+    width:117px;
+    height:146px;
+    border-radius: 15px;
+    background-color: #A7E9AF;
+    transition: all 2s;
 }
 
-.card img {
+.front-face {
+    position: absolute;
+    backface-visibility: hidden;
     width: 100px;
     height: 100px;
+    
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+
+    transition: all .5s;
+    transform-style: preserve-3d;
+}
+
+
+.back-face {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+
+    transform: rotateY(180deg);
+
+    transition: all .5s;
+    transform-style: preserve-3d;
+
+}
+
+.tap-front-face{
+    transform: rotateY(-180deg);
+}
+
+.untap-back-face{
+    transform: rotateY(0deg);
 }
 
 
@@ -61,14 +121,20 @@ body {
 
 li {
     list-style-type: none;
-
 }
 
-li.turn{
+
+
+/* .back-face {
     transform: rotateY(180deg);
-    opacity: 1;
 }
 
-.gif.turn{
-    opacity: 0;
+
+.to-turn .back-face {
+    transform: rotateY(0deg);
+    
 }
+
+.to-turn .front-face {
+    transform: rotateY(-180deg);
+} */
