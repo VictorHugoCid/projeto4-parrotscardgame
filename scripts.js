@@ -1,5 +1,5 @@
 
-let numCartas = 8 /* prompt("Com quantas cartas você quer jogar?"); */
+let numCards = Number(prompt("Com quantas cartas você quer jogar?"));
 let click = 0
 let deck = [
     '/imagens/gif/bobrossparrot.gif',
@@ -11,17 +11,14 @@ let deck = [
     '/imagens/gif/unicornparrot.gif'
 ]
 let deckRandom = [];
-
-/*CHAMAR FUNÇÕES*/
-spreadCards();
-
+let limite = 2;
 
 function comparador() {
     return (Math.random() - 0.5)
 }
+
 function randomCards() {
-    /* FUNCIONANDO */
-    for (let index = 0; index < (numCartas / 2); index++) {
+    for (let index = 0; index < (numCards / 2); index++) {
         deckRandom.push(deck[index]);
         deckRandom.push(deck[index]);
     }
@@ -29,123 +26,153 @@ function randomCards() {
 }
 
 function spreadCards() {
-    /* FUNCIONANDO*/
     randomCards();
     const ul = document.querySelector(`.game`);
 
-    if ((numCartas >= 4 && numCartas <= 14) && (numCartas % 2 == 0)) {
-        for (let index = 0; index < numCartas; index++) {
+    /* TENTAR COLOCAR UMA OPÇÃO PARA SE CANCELAR NAO CHAMAR DE NOVO*/ 
+    if ((numCards >= 4 && numCards <= 14) && (numCards % 2 == 0)) {
+        for (let index = 0; index < numCards; index++) {
             ul.innerHTML += `
                 <li class="card" onclick="choose(this)">
-                    <img class="front-face "src="imagens/img/parrot.png" >
-                    <img class="back-face" src="${deckRandom[index]}">
-                </li>
-            `;
+                    <div>
+                        <img class="front-face "src="imagens/img/parrot.png" >
+                    </div>
+                    <div>
+                        <img class="back-face" src="${deckRandom[index]}">
+                    </div>
+                </li>`;
         }
-    } else if (numCartas % 2 !== 0) {
+    } else if (numCards % 2 !== 0) {
         alert("O número de cartas precisa ser par")
-        numCartas = prompt("Com quantas cartas você quer jogar?")
+        numCards = prompt("Com quantas cartas você quer jogar?")
         spreadCards();
     } else {
         alert(`Escolha um número entre 4 e 14, inclusive.`);
-        numCartas = prompt("Com quantas cartas você quer jogar?")
+        numCards = prompt("Com quantas cartas você quer jogar?")
         spreadCards();
     }
 }
 
-
-
 function choose(element) {
     /*XXXXXX FLIPAR XXXXXXXXX  */
+    /* declaração para colocar marcadores na carta selecionada */
+    let imageF1, imageT1, imageF2, imageT2, div,li, masterLock;
 
-    let markerList = document.querySelectorAll(".markerT1")
-    //console.log(markerList)
-    let imageF1 = element.querySelector(".card .front-face");
-    let imageT1 = element.querySelector(".card .back-face");
-    let imageF2 = element.querySelector(".card .front-face");
-    let imageT2 = element.querySelector(".card .back-face");
+    /*lista de cartas ímpares viradas*/
+    let markerList = document.querySelectorAll(".mark1");
+    
+    /* controle para nao clicar na carta já selecionada */
+    let marker1Lock = element.querySelector("div.lock");
+
+    if (marker1Lock !== null) {
+        console.log("nao adianta clicar q vou ficar paradão")
+        return;
+    }
+
+    masterLock = document.querySelectorAll(".tap-front")
+    if (masterLock.length >= limite){
+        return
+    } 
 
     if (markerList.length == 0) {
-        imageF1.classList.add("tap-front-face");
-        imageF1.classList.add("markerF1");
+        imageF1 = element.querySelector(".front-face");
+        imageT1 = element.querySelector(".back-face");
+        // adicionar marcadores:
+        //virar carta
+        imageF1.classList.add("tap-front","mark1")
+        imageT1.classList.add("untap-back")
 
-        imageT1.classList.add("untap-back-face")
-        imageT1.classList.add("markerT1")
+        //marcar como primeira
+        imageT1.classList.add("mark1")
+
+        //marcar a div com lock
+        div = imageT1.parentNode
+        div.classList.add("lock")
 
     } else {
-        imageF2.classList.add("tap-front-face");
-        imageF2.classList.add("markerF2");
+        imageF2 = element.querySelector(".front-face");
+        imageT2 = element.querySelector(".back-face");
+        //tap-front, untap-back, mark1, tlavez lock(ainda resolvendo)
+        //virar carta
+        imageF2.classList.add("tap-front","mark2")
+        imageT2.classList.add("untap-back")
+        //marcar como segunda
+        imageT2.classList.add("mark2")
+        //marcar a div com lock
+        div = imageT2.parentNode
+        div.classList.add("lock")
 
-        imageT2.classList.add("untap-back-face")
-        imageT2.classList.add("markerT2")
-
-        verify(element, imageF1, imageT1, imageF2, imageT2);
     }
-
-    /*ADICIONAR DISABLE, PARA O MOUSE NAO CLICAR MAIS EM QUEM ESTÁ ABERTO E COM PAR*/
-
+    /*contar clicks*/
+    click++;
+    verify(element);
 }
 
-
-function verify(element, imageF1, imageT1, imageF2, imageT2) {
-
+function verify(element) {
     /*ver se tem alguem com marker*/
-    let marker1 = document.querySelectorAll(".untap-back-face.markerT1")
-    let marker2 = document.querySelectorAll(".untap-back-face.markerT2")
+    let marker1 = document.querySelectorAll(".untap-back.mark1");
+    let marker2 = document.querySelectorAll(".untap-back.mark2");
 
-    console.log(marker1, marker2)
-
-    //console.log("click")
     if (marker1.length == 1 && marker2.length == 1) {
-        console.log("heeeyyyy")
-        let firstChoiceFront = document.querySelector(".tap-front-face.markerF1");
-        let firstChoiceBack = document.querySelector(".untap-back-face.markerT1");
-        let secondChoiceFront = element.querySelector(".tap-front-face.markerF2");
-        let secondChoiceBack = element.querySelector(".untap-back-face.markerT2"); 
-        
+        imageT1 = document.querySelector(".untap-back.mark1");
+        imageT2 = element.querySelector(".untap-back.mark2");
 
-
-        console.log(firstChoiceFront.src)
-        console.log(firstChoiceBack.src)
-        console.log(secondChoiceFront.src)
-        console.log(secondChoiceBack.src )
-
-        if (firstChoiceBack.src !== secondChoiceBack.src) {
-
+        imageF1 = document.querySelector(".tap-front.mark1");
+        imageF2 = document.querySelector(".tap-front.mark2");
+        //console.log(imageF1, imageF2)
+        if (imageT1.src !== imageT2.src) {
+            console.log("Errou feio, errou rude");
             setTimeout(function removerAtributos() {
                 /* remover atributos da primeira*/
-                firstChoiceBack.classList.remove("markerT1")
-                firstChoiceFront.classList.remove("markerF1")
-                firstChoiceBack.classList.remove("untap-back-face")
-                firstChoiceFront.classList.remove("tap-front-face")
-
-
+                imageT1.classList.remove("untap-back","mark1");
+                imageF1.classList.remove("tap-front","mark1");
 
                 /* remover atributos da segunda */
-                secondChoiceBack.classList.remove("markerT2")
-                secondChoiceFront.classList.remove("markerF2")
-                secondChoiceBack.classList.remove("untap-back-face")
-                secondChoiceFront.classList.remove("tap-front-face")
+                imageT2.classList.remove("untap-back","mark2");
+                imageF2.classList.remove("tap-front","mark2");
 
-
+                /* remover lock */
+                imageT1.parentNode.classList.remove("lock");
+                imageT2.parentNode.classList.remove("lock");
+                
             }, 1000);
-
         } else {
-            console.log("acertô mizeravi")
-            //remover marker
-            firstChoiceBack.classList.remove("markerT1")
-            firstChoiceFront.classList.remove("markerF1")
+            console.log("acertô mizeravi");
+            /* aumentar limite*/
+            limite +=2
+            /* remover marcações da primeira*/
+            imageT1.classList.remove("mark1");
+            imageF1.classList.remove("mark1");
 
-            secondChoiceBack.classList.remove("markerT2")
-            secondChoiceFront.classList.remove("markerF2")
-            
-            //adicionar marcador ".pair"
-            //remover ".marker"
-            //e deixar aberto 
+            /* remover marcações da segunda */
+            imageT2.classList.remove("mark2");
+            imageF2.classList.remove("mark2");
+
+            /* AQUI TEM Q MANTER O LOCK */
+            setTimeout(endVerify,10);
 
         }
+    }
 
-        //}else {
+    
+    
+}
 
+function endVerify() {
+    let tapped = document.querySelectorAll(".tap-front");
+    console.log(tapped.length)
+    console.log(numCards)
+    if (tapped.length === numCards) {
+        if (click === numCards) {
+            alert(`Ae, doido!!! terminou com o mínimo de jogadas (${numCards})`);
+        } else {
+            alert(
+                `Finalmente, hein. O mínimo de jogadas é ${numCards} e vc precisou de ${click}, muito fraquinho ainda.`
+            );
+        }
+    }else{
+        console.log("ainda nao");
     }
 }
+
+spreadCards();

@@ -28,10 +28,6 @@ body {
 }
 
 .game {
-    /* display: flex;
-    justify-content: center;
-    flex-wrap: wrap; */
-
     display:flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -40,24 +36,6 @@ body {
     transition: all 3s;
 
 }
-
-
-
-/* .card {
-    position: relative;
-    background-color: #A7E9AF;
-    width: 117;
-    height: 146px;
-    border: 1px solid #99CEA8;
-    border-radius: 5px;
-    margin: 0 34px 34px 0;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    transition: transform 500ms;
-} */
 
 .card {
     position: relative;
@@ -70,7 +48,8 @@ body {
     height:146px;
     border-radius: 15px;
     background-color: #A7E9AF;
-    transition: all 2s;
+
+    /* transition: all 2s; */
 }
 
 .front-face {
@@ -87,6 +66,16 @@ body {
 
     transition: all .5s;
     transform-style: preserve-3d;
+}
+
+.card div{
+    position: relative;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 117px;
+    height: 146px;
 }
 
 
@@ -106,11 +95,11 @@ body {
 
 }
 
-.tap-front-face{
+.tap-front{
     transform: rotateY(-180deg);
 }
 
-.untap-back-face{
+.untap-back{
     transform: rotateY(0deg);
 }
 
