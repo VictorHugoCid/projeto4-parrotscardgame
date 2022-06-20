@@ -33,7 +33,7 @@ body {
     justify-content: center;
     margin: 0 auto;
     opacity: 1;
-    transition: all 3s;
+    transition: all .5s;
 
 }
 
@@ -49,7 +49,6 @@ body {
     border-radius: 15px;
     background-color: #A7E9AF;
 
-    /* transition: all 2s; */
 }
 
 .front-face {

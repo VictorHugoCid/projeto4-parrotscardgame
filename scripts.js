@@ -2,13 +2,13 @@
 let numCards = Number(prompt("Com quantas cartas você quer jogar?"));
 let click = 0
 let deck = [
-    '/imagens/gif/bobrossparrot.gif',
-    '/imagens/gif/explodyparrot.gif',
-    '/imagens/gif/fiestaparrot.gif',
-    '/imagens/gif/metalparrot.gif',
-    '/imagens/gif/revertitparrot.gif',
-    '/imagens/gif/tripletsparrot.gif',
-    '/imagens/gif/unicornparrot.gif'
+    'imagens/gif/bobrossparrot.gif',
+    'imagens/gif/explodyparrot.gif',
+    'imagens/gif/fiestaparrot.gif',
+    'imagens/gif/metalparrot.gif',
+    'imagens/gif/revertitparrot.gif',
+    'imagens/gif/tripletsparrot.gif',
+    'imagens/gif/unicornparrot.gif'
 ]
 let deckRandom = [];
 let limite = 2;
@@ -119,7 +119,6 @@ function verify(element) {
 
         imageF1 = document.querySelector(".tap-front.mark1");
         imageF2 = document.querySelector(".tap-front.mark2");
-        //console.log(imageF1, imageF2)
         if (imageT1.src !== imageT2.src) {
             console.log("Errou feio, errou rude");
             setTimeout(function removerAtributos() {
@@ -149,19 +148,15 @@ function verify(element) {
             imageF2.classList.remove("mark2");
 
             /* AQUI TEM Q MANTER O LOCK */
-            setTimeout(endVerify,10);
+            setTimeout(endVerify,500);
 
         }
     }
-
-    
-    
 }
 
 function endVerify() {
     let tapped = document.querySelectorAll(".tap-front");
-    console.log(tapped.length)
-    console.log(numCards)
+    
     if (tapped.length === numCards) {
         if (click === numCards) {
             alert(`Ae, doido!!! terminou com o mínimo de jogadas (${numCards})`);
